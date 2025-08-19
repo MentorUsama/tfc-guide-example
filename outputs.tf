@@ -1,11 +1,5 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
-output "instance_ami" {
-  value = aws_instance.ubuntu.ami
+# outputs.tf (test-only)
+output "delay_applied_seconds" {
+  value       = var.delay_seconds
+  description = "Delay used for apply/destroy."
 }
-
-output "instance_arn" {
-  value = aws_instance.ubuntu.arn
-}
-
