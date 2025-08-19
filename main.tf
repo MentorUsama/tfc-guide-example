@@ -1,21 +1,16 @@
 # main.tf
 terraform {
   required_version = ">= 1.5.0"
-  required_providers {
-    time = {
-      source  = "hashicorp/time"
-      version = ">= 0.9.1"
-    }
-  }
 }
 
+# How many seconds to delay (for both apply and destroy)
 variable "delay_seconds" {
   type        = number
-  description = "How many seconds to delay (applies to both apply and destroy)."
+  description = "Delay applied during apply and destroy."
   default     = 10
 }
 
-# Delay resource
+# Pure delay resource (no cloud resources)
 resource "time_sleep" "wait" {
   create_duration  = "${var.delay_seconds}s"
   destroy_duration = "${var.delay_seconds}s"
@@ -26,7 +21,7 @@ resource "time_sleep" "wait" {
     command     = "echo \"[$(date -u +%FT%TZ)] Apply complete (slept ${var.delay_seconds}s)\""
   }
 
-  # Log after destroy delay (NO var.* here, Terraform restriction)
+  # Log after destroy delay (must NOT reference var.* at destroy time)
   provisioner "local-exec" {
     when        = destroy
     interpreter = ["bash", "-c"]
