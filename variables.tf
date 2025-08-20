@@ -7,5 +7,5 @@ variable "delay_seconds" {
 variable "force_fail" {
   type        = bool
   description = "Set to true to force an error during plan (for testing)."
-  default     = true
+  default     = false
 }
